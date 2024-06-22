@@ -1,1 +1,1 @@
-# schaduler
+# scheduler
