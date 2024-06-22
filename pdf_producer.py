@@ -3,6 +3,13 @@ from jinja2 import Template
 import os
 import scheduler
 
+import os
+
+directory = './export'
+
+if not os.path.exists(directory):
+    os.makedirs(directory)
+    print(f"Directory '{directory}' created.")
 
 def create_pdf(schedule_data, destination):
 
