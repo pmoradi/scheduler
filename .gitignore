@@ -1,3 +1,9 @@
+./export
+rendered_template.html
+*.pdf
+schedule.json
+*.pyc
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WEEKLY SCHEDULE</title>
+    <style>
+        #piechart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh; /* Adjust the height as needed */
+        }
+
+        h1, title {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #dddddd;
+        }
+        th {
+            background-color: #f1f1fd;
+        }
+        td:first-child {
+            text-align: left;
+        }
+    </style>
+    <script src="{{ dir }}/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>WEEKLY SCHEDULE</h1>
+    <table>
+        <tr>
+            <th style="width: 3%;"></th>
+            <th style="width: 40%;">Title</th>
+            <th style="width: 10%;">Time (min)</th>
+            <th style="width: 45%;">Comment</th>
+        </tr>
+        {% for day, tasks in schedule.items() %}
+            <tr style="background-color: gray;">
+                <td colspan="4" style="text-align: center; font-weight: bold;">{{ day }}</td>
+            </tr>
+            {% for task in tasks %}
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td style="text-align: left;">{{ task.title }}</td>
+                    <td>{{ task.time }}</td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4"><br><br>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br><br><br><br><br><br><br><br>
+    <div id="piechart" style="width: 100%; height: 500px; align-items: center;"></div>
+    <p style="text-align: center;"> Total allocated time in the week is {{percentage_data['total_time']/60 |  round(1)}} hours</p>
+    <script>
+        var data = [{
+            values: [
+                {% for activity, percentage in percentage_data['week'].items() %}
+                {{ percentage }},
+                {% endfor %}
+            ],
+            labels: [
+                {% for activity, percentage in percentage_data['week'].items() %}
+                "{{ activity }}",
+                {% endfor %}
+            ],
+            type: 'pie'
+        }];
+
+        var layout = {
+            height: 500,
+            width: '100%',
+            title: 'WEEKLY SPENT TIME PERCENTAGE'
+        };
+
+        Plotly.newPlot('piechart', data, layout);
+    </script>
+   
+</body>
+</html>
